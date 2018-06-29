@@ -11,14 +11,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        player=findViewById(R.id.ybolo_tv_player);
+       /* player=findViewById(R.id.ybolo_tv_player);
         player.setDataSources("http://vod.ybolo.com/live/10001-026-L180517-2007.m3u8");
+        */
     }
 
 
     @Override
     protected void onDestroy() {
-        player.OnDestroy();
+       // player.OnDestroy();
         super.onDestroy();
     }
 }

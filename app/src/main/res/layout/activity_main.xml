@@ -6,11 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!--
     <ybolo.szrearch.com.tvtest.YboloTvPlayer
         android:id="@+id/ybolo_tv_player"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </ybolo.szrearch.com.tvtest.YboloTvPlayer>
+    -->
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
 </android.support.constraint.ConstraintLayout>

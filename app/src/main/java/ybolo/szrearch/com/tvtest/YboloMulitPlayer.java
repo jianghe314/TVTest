@@ -56,6 +56,9 @@ public class YboloMulitPlayer extends RelativeLayout implements View.OnFocusChan
         surfaceView3=view.findViewById(R.id.surface_view3);
         surfaceView2.setOnClickListener(this);
         surfaceView3.setOnClickListener(this);
+        //设置标志，用于判断大小屏的切换
+        surfaceView2.setTag(false);
+        surfaceView3.setTag(false);
         addView(view);
     }
 
@@ -261,6 +264,10 @@ public class YboloMulitPlayer extends RelativeLayout implements View.OnFocusChan
     private IMediaPlayer.OnCompletionListener onCompletionListener=new IMediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(IMediaPlayer mp) {
+            //如果一路播放完毕，则其他的多暂停
+            /*ksyMediaPlayer1.stop();
+            ksyMediaPlayer2.stop();
+            ksyMediaPlayer3.stop();*/
             Toast.makeText(context.getApplicationContext(),"播放完毕",Toast.LENGTH_SHORT).show();
         }
     };
@@ -269,15 +276,42 @@ public class YboloMulitPlayer extends RelativeLayout implements View.OnFocusChan
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.surface_view2:
-                surfaceHolder1.removeCallback(mCallBack1);
-                surfaceHolder2.removeCallback(mCallBack2);
-                surfaceHolder1.addCallback(mCallBack2);
-                surfaceHolder2.addCallback(mCallBack1);
-                ksyMediaPlayer2.setDisplay(surfaceHolder1);
-                ksyMediaPlayer1.setDisplay(surfaceHolder2);
+                if(!(boolean)surfaceView2.getTag()){
+                    surfaceHolder1.removeCallback(mCallBack1);
+                    surfaceHolder2.removeCallback(mCallBack2);
+                    surfaceHolder1.addCallback(mCallBack2);
+                    surfaceHolder2.addCallback(mCallBack1);
+                    ksyMediaPlayer2.setDisplay(surfaceHolder1);
+                    ksyMediaPlayer1.setDisplay(surfaceHolder2);
+                    surfaceView2.setTag(true);
+                }else {
+                    surfaceHolder1.removeCallback(mCallBack2);
+                    surfaceHolder2.removeCallback(mCallBack1);
+                    surfaceHolder1.addCallback(mCallBack1);
+                    surfaceHolder2.addCallback(mCallBack2);
+                    ksyMediaPlayer2.setDisplay(surfaceHolder2);
+                    ksyMediaPlayer1.setDisplay(surfaceHolder1);
+                    surfaceView2.setTag(false);
+                }
                 break;
             case R.id.surface_view3:
-
+                if(!(boolean)surfaceView3.getTag()){
+                    surfaceHolder1.removeCallback(mCallBack1);
+                    surfaceHolder3.removeCallback(mCallBack3);
+                    surfaceHolder1.addCallback(mCallBack3);
+                    surfaceHolder3.addCallback(mCallBack1);
+                    ksyMediaPlayer3.setDisplay(surfaceHolder1);
+                    ksyMediaPlayer1.setDisplay(surfaceHolder3);
+                    surfaceView3.setTag(true);
+                }else {
+                    surfaceHolder1.removeCallback(mCallBack3);
+                    surfaceHolder3.removeCallback(mCallBack1);
+                    surfaceHolder1.addCallback(mCallBack1);
+                    surfaceHolder3.addCallback(mCallBack3);
+                    ksyMediaPlayer3.setDisplay(surfaceHolder3);
+                    ksyMediaPlayer1.setDisplay(surfaceHolder1);
+                    surfaceView3.setTag(false);
+                }
                 break;
         }
     }
@@ -373,11 +407,20 @@ public class YboloMulitPlayer extends RelativeLayout implements View.OnFocusChan
         }
     }
 
-    /**
-     * 信息回调接口
-     */
-    public interface SynVideo{
-        void setPause();
-        void setStart();
+
+
+    public void onPause(){
+        ksyMediaPlayer1.pause();
+        ksyMediaPlayer2.pause();
+        ksyMediaPlayer3.pause();
+    }
+
+    public void onDestory(){
+        ksyMediaPlayer1.stop();
+        ksyMediaPlayer2.stop();
+        ksyMediaPlayer3.stop();
+        ksyMediaPlayer1.release();
+        ksyMediaPlayer2.release();
+        ksyMediaPlayer3.release();
     }
 }

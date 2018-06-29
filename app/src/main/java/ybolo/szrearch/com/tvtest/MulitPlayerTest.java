@@ -24,8 +24,20 @@ public class MulitPlayerTest extends AppCompatActivity {
     private void initView() {
         mulitPlayer=findViewById(R.id.mulit_player);
         sources.add(path);
-        sources.add(path2);
-        //sources.add(path);
+        //sources.add(path2);
         mulitPlayer.setDataSources(sources);
+    }
+
+
+    @Override
+    protected void onPause() {
+        mulitPlayer.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mulitPlayer.onDestory();
+        super.onDestroy();
     }
 }
